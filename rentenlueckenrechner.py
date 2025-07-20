@@ -1,10 +1,36 @@
 from datetime import datetime
 import time
 import re
+import os
+import shutil
 from fpdf import FPDF
 
+# Variablen für Autor und Version
+version="0.9.0"
+author="Steffen Tschirner (rlr@hilf-dir-selber.de)"
+status="beta"
+last_modified=datetime.today().strftime("%d.%m.%Y")
+
+# Beschreibung
+description = (f"Das Programm errechnet nach Eingabe der notwendigen Informationen die aktuelle Rentenlücke.\nBitte lesen Sie zuvor die beiliegende Beschreibung die erklärt,\nwelche Informationen benötigt werden und wie das Programm funktioniert.")
+
+# aktuelle Einschränkungen:
+aktueller_status = (f"In der aktuellen Version müssen Dezimalzahlen mit Punkt anstatt mit Komma eingegeben werden (14.40 anstatt 14,50).\n")
+
+
+# Funktion zum Löschen des Konsoleninhalts
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Funktion zum Zentrieren von Text
+def center_text(text, width):
+    return text.center(width)
+
+
+# Hauptfunktion zur Berechnung der Rentenlücke
 def berechne_rentenluecke():
-    
+
+    # Klasse für die PDF-Erstellung  
     class PDFExporter(FPDF):
             def __init__(self):
                 super().__init__()
@@ -21,39 +47,39 @@ def berechne_rentenluecke():
                     f"Status: {status}         "
                     f"Letzte Änderung: {last_modified}"
                 )
-                self.cell(0, 6, metadata_text, ln=True, align='C')
-                self.ln(4)
+                self.cell(0, 6, metadata_text, ln=False, align='C')
+                self.set_y(self.get_y() + 6)
 
             def add_main_title(self, text):
                 self.set_font("Helvetica", "B", 20)
                 self.set_text_color(0, 0, 128)
-                self.cell(0, 10, text, ln=True, align='C')
-                self.ln(3)
+                self.cell(0, 10, text, ln=False, align='C')
+                self.set_y(self.get_y() + 10)
 
             def add_subheading(self, text):
                 self.set_font("Helvetica", "B", 14)
                 self.set_text_color(0, 0, 0)
-                self.cell(0, 8, text, ln=True)
-                self.ln(1)
+                self.cell(0, 8, text)
+                self.set_y(self.get_y() + 8)
 
             def add_description(self, text):
                 self.set_font("Helvetica", "", 10)
                 self.set_text_color(50, 50, 50)
                 self.multi_cell(0, 7, text)
-                self.ln(1)
+                self.set_y(self.get_y() + 2)
 
             def add_input_text(self, text):
                 self.set_font("Courier", "I", 11)
                 self.set_text_color(0, 102, 204)
                 self.multi_cell(0, 6, f" {text}")
-                self.ln(0)
+                self.set_y(self.get_y() + 1)
 
             def add_code_output(self, text):
                 self.set_font("Courier", "", 11)
                 self.set_text_color(0, 153, 0)
                 self.set_fill_color(230, 230, 230)
                 self.multi_cell(0, 6, f"Ausgabe:\n{text}", fill=True)
-                self.ln(3)
+                self.set_y(self.get_y() + 3)
 
     # Initialisiere die PDF-Instanz
     pdf = PDFExporter()
@@ -63,10 +89,10 @@ def berechne_rentenluecke():
 
     # Füge Metadaten hinzu
     pdf.add_metadata_block(
-    version="0.9.0",
-    author="Steffen Tschirner (rlr@hilf-dir-selbst.de)",
-    status="beta",
-    last_modified=datetime.today().strftime("%d.%m.%Y")
+    version={version},
+    author={author},
+    status={status},
+    last_modified={last_modified}
     
 )
  
@@ -81,6 +107,46 @@ def berechne_rentenluecke():
     jahr_ungueltig = "Ungültige Eingabe. Bitte geben Sie ein Jahr mit 4 Zahlen ein (z.B. 1980)."
     alter_ungueltig = "Ungültige Eingabe. Bitte geben Sie ein Alter mit 2 Zahlen ein (z.B. 67)."
     name_ungueltig = "Ungültige Eingabe. Bitte benutzen Sie für die Namen nur Buchstaben, Zahlen und Bindestriche."
+    
+    
+    
+    # Bildschirm löschen
+    clear_screen()
+
+    # Terminalgröße ermitteln
+    terminal_size = shutil.get_terminal_size()
+    width = terminal_size.columns
+
+    # Zwei Leerzeilen
+    print("\n" * 2)
+
+    # Programmname zentriert
+    print("Rentenlückenrechner")
+
+    # Weitere zwei Leerzeilen, eingerahmt mit "|"
+    print("\n" * 1)
+
+    # Autor und Version
+    combined_info = (f"Autor: {author}    Version:{version}-{status}    letzte Änderung:{last_modified}")
+    # print(f"{combined_info}".center(width))
+    print(f"{combined_info}")
+    # Weitere zwei Leerzeilen
+    print("\n" * 1)
+
+
+    # Beschreibung
+    print(f"{description}".center(width))
+ 
+    # Weitere zwei Leerzeilen
+    print("\n" * 1)
+    
+    # Aktueller Status
+    print("Einschränkungen in der aktuellen Version:")
+    print(f"{aktueller_status}")
+    # Weitere zwei Leerzeilen
+    print("\n" * 1)    
+    
+    
     
     
     # Daten abfragen

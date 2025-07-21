@@ -1,6 +1,6 @@
 # 🧮 Rentenlückenrechner
 
-**Version:** 0.9.0  
+**Version:** 0.9.0-beta  
 **Sprache:** Python  
 **Lizenz:**  MIT
 
@@ -10,12 +10,12 @@ Dieses Projekt steht unter der MIT-Lizenz – siehe LICENSE für Details.
 👤 Autor
 [Steffen Tschirner]
 📧 [rlr@hilf-dir-selber.de]
-🌐 GitHub: github.com/hilfdirselbst
+🌐 GitHub: github.com/SteffenTschirner/rentenlueckenrechner
 
 
 ## 📌 Beschreibung
 
-Der **Rentenlückenrechner** ist ein einfaches Python-Skript zur Berechnung der voraussichtlichen Rentenlücke im Alter.
+Der **Rentenlückenrechner** ist ein einfaches Programm zur Berechnung der voraussichtlichen Rentenlücke im Alter.
 Basierend auf:
 - aktuellen Ausgaben
 - persönlichen Inflation
@@ -28,6 +28,7 @@ Basierend auf:
 werden die Summe der Einkünfte und Ausgaben während der Rentenbezugszeit ermittelt und daraus die Rentenlücke bzw. ein vorhandener Überschuss errechnet.
 
 Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
+
 
 ---
 
@@ -43,6 +44,7 @@ Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
 
 ### Voraussetzungen
 
+Für das Ausführen der EXE Datei unter Windows gelten diese Voraussetzungen nicht.
 - Python 3.8 oder höher
 - fpdf
 
@@ -50,6 +52,10 @@ Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
 
 ## ▶️ Verwendung
 
+### Windows
+rentenlueckenrechner.exe 
+
+### Linux
 python rentenlueckenrechner.py
 
 ### 📄 Beispielausgabe

@@ -88,13 +88,7 @@ def berechne_rentenluecke():
     pdf.add_main_title("Rentenlückenrechner")
 
     # Füge Metadaten hinzu
-    pdf.add_metadata_block(
-    version={version},
-    author={author},
-    status={status},
-    last_modified={last_modified}
-    
-)
+    pdf.add_metadata_block(version,author,status,last_modified)
  
     # RegEx Muster für Eingabenprüfung
     muster_name = r'^[A-Za-z0-9-]+$'        # Muster für Namen (Buchstaben, Zahlen und Bindestrich)

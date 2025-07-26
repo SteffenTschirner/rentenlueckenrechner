@@ -1,6 +1,6 @@
 # 🧮 Rentenlückenrechner
 
-**Version:** 0.9.0-beta  
+**Version:** 0.9.1-beta  
 **Sprache:** Python  
 **Lizenz:**  MIT
 
@@ -25,7 +25,8 @@ Basierend auf:
 - Renteneintrittsalter
 - Wunschalter
 - Eingabe bereits vorhandener Zusatzeinkommen z.B. Zusatzrenten, Versicherungen, Kapitalerträge
-werden die Summe der Einkünfte und Ausgaben während der Rentenbezugszeit ermittelt und daraus die Rentenlücke bzw. ein vorhandener Überschuss errechnet.
+  werden die Summe der Einkünfte und Ausgaben während der Rentenbezugszeit ermittelt und daraus die Rentenlücke bzw. ein vorhandener Überschuss errechnet.
+- Bei einer vorhandenen Rentenlücke werden drei Beispielsparpläne mit unterschiedlichen Renditen zum Füllen der Rentenlücke ausgegeben.
 
 Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
 

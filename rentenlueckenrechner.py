@@ -6,7 +6,7 @@ import shutil
 from fpdf import FPDF
 
 # Variablen für Autor und Version
-version="0.9.0"
+version="0.9.1"
 author="Steffen Tschirner (rlr@hilf-dir-selber.de)"
 status="beta"
 last_modified=datetime.today().strftime("%d.%m.%Y")
@@ -15,7 +15,7 @@ last_modified=datetime.today().strftime("%d.%m.%Y")
 description = (f"Das Programm errechnet nach Eingabe der notwendigen Informationen die aktuelle Rentenlücke.\nBitte lesen Sie zuvor die beiliegende Beschreibung die erklärt,\nwelche Informationen benötigt werden und wie das Programm funktioniert.")
 
 # aktuelle Einschränkungen:
-aktueller_status = (f"In der aktuellen Version müssen Dezimalzahlen mit Punkt anstatt mit Komma eingegeben werden (14.40 anstatt 14,50).\n")
+aktueller_status = (f"(aktuell sind keine Fehler bekannt).\n")
 
 
 # Funktion zum Löschen des Konsoleninhalts
@@ -25,6 +25,33 @@ def clear_screen():
 # Funktion zum Zentrieren von Text
 def center_text(text, width):
     return text.center(width)
+
+# Funktion zur Berechnung der monatlichen Investitionsrate
+def monatliche_investitionsrate(jahre, rendite, zielsumme):
+    # Sicherstellen, dass die Zielsumme positiv ist
+    zielsumme = abs(zielsumme)
+    
+    # Umwandlung der Rendite von Prozent in Dezimal
+    rendite_dezimal = rendite / 100
+    
+    # Berechnung der monatlichen Investitionsrate
+    if rendite_dezimal > 0:
+        # Berechnung der monatlichen Rate basierend auf der Annuitätenformel
+        rate = (zielsumme * (rendite_dezimal / 12)) / (((1 + rendite_dezimal / 12) ** (12 * jahre)) - 1)
+ 
+    else:
+        # Wenn keine Verzinsung (rendite_dezimal == 0), einfach gleichmäßig verteilen
+        rate = zielsumme / (jahre * 12)
+    
+    return rate
+ 
+# Funktion zur Eingabe einer Dezimalzahl
+def eingabe_dezimalzahl(eingabe_komma):
+   
+    # Komma durch Punkt ersetzen und in float umwandeln
+    eingabe_punkt = float(eingabe_komma.replace(',', '.'))
+    
+    return eingabe_punkt
 
 
 # Hauptfunktion zur Berechnung der Rentenlücke
@@ -91,16 +118,16 @@ def berechne_rentenluecke():
     pdf.add_metadata_block(version,author,status,last_modified)
  
     # RegEx Muster für Eingabenprüfung
-    muster_name = r'^[A-Za-z0-9-]+$'        # Muster für Namen (Buchstaben, Zahlen und Bindestrich)
-    muster_jahr = r'^\d{4}$'                # Muster für Jahr (nur 4-stellige Zahlen)
-    muster_alter = r'^\d{2}$'               # Muster für Alter (nur 2-stellige Zahlen)    
-    muster_betrag = r'^\d+(\.\d{1,2})?$'    # Muster für Beträge (Zahlen mit optionalen Dezimalstellen)
+    muster_name = r'^[A-Za-z0-9- öÖäÄüÜ]+$' # Muster für Namen (Buchstaben, Umlaute Zahlen und Bindestrich)
+    muster_jahr = r'^\d{4}$'                 # Muster für Jahr (nur 4-stellige Zahlen)
+    muster_alter = r'^\d{2}$'                # Muster für Alter (nur 2-stellige Zahlen)    
+    muster_betrag = r'^\d+(\,\d{1,2})?$'     # Muster für Beträge (Zahlen mit optionalen Dezimalstellen)
     
     # Variablen für Prüfung
     betrag_ungueltig ="Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl mit Punkt (1.45) ein."
     jahr_ungueltig = "Ungültige Eingabe. Bitte geben Sie ein Jahr mit 4 Zahlen ein (z.B. 1980)."
     alter_ungueltig = "Ungültige Eingabe. Bitte geben Sie ein Alter mit 2 Zahlen ein (z.B. 67)."
-    name_ungueltig = "Ungültige Eingabe. Bitte benutzen Sie für die Namen nur Buchstaben, Zahlen und Bindestriche."
+    name_ungueltig = "Ungültige Eingabe. Bitte benutzen Sie für die Namen Buchstaben, Zahlen, Leerzeichen und Bindestriche."
     
     
     
@@ -237,9 +264,8 @@ def berechne_rentenluecke():
     while True:
         eingabe = input("Geben Sie Ihre aktuellen monatlichen Ausgaben (ohne Investitionen) ein: ")
         if re.match(muster_betrag, eingabe):
-            #eingabe = re.sub(r'\,(?=\d{3})', '.', eingabe)  # 
-            #eingabe_mit_punkt = re.sub(r',', '.', eingabe, 1)
-            ausgaben_monatlich = float(eingabe)
+            # Eingabe in Dezimalzahl umwandeln
+            ausgaben_monatlich = float(eingabe_dezimalzahl(eingabe))
             break   
         else:
             print(f"{betrag_ungueltig}")
@@ -264,7 +290,7 @@ def berechne_rentenluecke():
     while True:
         eingabe = input("Geben Sie Ihre persönliche Inflation in Prozent ein: ")
         if re.match(muster_betrag, eingabe):
-            inflationsrate = float(eingabe) / 100
+            inflationsrate = float(eingabe_dezimalzahl(eingabe)) / 100
             break   
         else:
             print(f"{betrag_ungueltig}")
@@ -283,7 +309,7 @@ def berechne_rentenluecke():
     while True:
         eingabe = input("Geben Sie Ihre monatliche Rente (aktuell zu erwartende Rente laut Bescheid RV) ein: ")
         if re.match(muster_betrag, eingabe):
-            rente_monatlich = float(eingabe)
+            rente_monatlich = float(eingabe_dezimalzahl(eingabe))
             break   
         else:
             print(f"{betrag_ungueltig}")
@@ -317,7 +343,7 @@ def berechne_rentenluecke():
     while True:
         eingabe = input("Geben Sie die jährliche prozentuale Erhöhung der Rente bis zum Renteneintritt ein: ")
         if re.match(muster_betrag, eingabe):
-            rentenerhoehung_vor_rente = float(eingabe) / 100
+            rentenerhoehung_vor_rente = float(eingabe_dezimalzahl(eingabe)) / 100
             break   
         else:
             print(f"{betrag_ungueltig}")
@@ -326,7 +352,7 @@ def berechne_rentenluecke():
     while True:
         eingabe = input("Geben Sie die jährliche prozentuale Erhöhung der Rente während des Rentenbezugs ein: ")
         if re.match(muster_betrag, eingabe):
-            rentenerhoehung_nach_rente = float(eingabe) / 100
+            rentenerhoehung_nach_rente = float(eingabe_dezimalzahl(eingabe)) / 100
             break   
         else:
             print(f"{betrag_ungueltig}")
@@ -378,7 +404,7 @@ def berechne_rentenluecke():
         while True:
             eingabe = input(f"Geben Sie die Höhe des monatlichen Einkommens {name} ein: ")
             if re.match(muster_betrag, eingabe):
-                startwert_mon = float(eingabe)
+                startwert_mon = float(eingabe_dezimalzahl(eingabe))
                 break   
             else:
                 print(f"{betrag_ungueltig}")
@@ -392,7 +418,7 @@ def berechne_rentenluecke():
         while True:
             eingabe = input(f"Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für {name} ein: ")
             if re.match(muster_betrag, eingabe):
-                wachstum = float(eingabe) / 100
+                wachstum = float(eingabe_dezimalzahl(eingabe)) / 100
                 break   
             else:
                 print(f"{betrag_ungueltig}")
@@ -526,6 +552,24 @@ def berechne_rentenluecke():
         formatted_rentenluecke = f"{rentenluecke:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         print(f"Die Rentenlücke beträgt: {formatted_rentenluecke} Euro.")
         pdf.add_input_text(f"Die Rentenlücke beträgt: {formatted_rentenluecke} Euro.")
+        print("-----------------------------------------------------------------------------------")
+        pdf.add_input_text(f"-------------------------------------------------------------------")
+
+        # Renditen in einer Liste
+        renditen = [3, 7, 9]
+
+        # Schleife über die Renditen
+        for rendite in renditen:
+            print(f"Beispielrechnung mit {rendite}% Rendite um die Rentenlücke zu schließen")
+            pdf.add_input_text(f"Beispielrechnung mit {rendite}% Rendite um die Rentenlücke zu schließen")
+            
+            # Berechnung der monatlichen Investitionsrate
+            investitionsrate = monatliche_investitionsrate(jahre_bis_renteneintritt, rendite, rentenluecke)
+            formatted_investitionsrate = f"{investitionsrate:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            # Ausgabe der Berechnungen
+            print(f"Bei {rendite}% müsste man {jahre_bis_renteneintritt} Jahre lang monatlich {formatted_investitionsrate} Euro investieren, um eine Rentenlücke von {formatted_rentenluecke} Euro zu schließen.\n")
+            pdf.add_input_text(f"Bei {rendite}% müsste man {jahre_bis_renteneintritt} Jahre lang monatlich {formatted_investitionsrate} Euro investieren,\num eine Rentenlücke von {formatted_rentenluecke} Euro zu schließen.\n")
+
     else:
         print("Sie haben keine Rentenlücke, Ihre Einkünfte sind höher Ihre Ausgaben.")
         pdf.add_input_text("Sie haben keine Rentenlücke, Ihre Einkünfte sind höher als Ihre Ausgaben.")
@@ -536,6 +580,7 @@ def berechne_rentenluecke():
         pdf.add_input_text(f"Der Überschuss geträgt: {formatted_abs_rentenluecke} Euro.")
   
     print("-----------------------------------------------------------------------------------")
+    
      # Speichern der PDF-Datei
     pdf_output_filename = f"Rentenluecken-Berechnung_{datei_current_time}.pdf"
     pdf.output(pdf_output_filename)

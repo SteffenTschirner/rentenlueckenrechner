@@ -60,65 +60,93 @@ python rentenlueckenrechner.py
 
 ### 📄 Beispielausgabe
 ```
-Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: 1978
+Rentenlückenrechner
+
+
+Autor: Steffen Tschirner (rlr@hilf-dir-selber.de)    Version:0.9.1-beta    letzte Änderung:26.07.2025
+
+
+Das Programm errechnet nach Eingabe der notwendigen Informationen die aktuelle Rentenlücke.
+Bitte lesen Sie zuvor die beiliegende Beschreibung die erklärt,
+welche Informationen benötigt werden und wie das Programm funktioniert.
+
+
+Einschränkungen in der aktuellen Version:
+(aktuell sind keine Fehler bekannt).
+
+
+
+Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: 1969
 Geben Sie Ihr Renteneintrittsalter (z.B. 67) ein: 67
 Geben Sie Ihr Wunschalter (z.B. 90) ein: 90
 -----------------------------------------------------------------------------------
-Geburtsjahr: 1978
+Geburtsjahr: 1969
 Renteneintrittsalter: 67
 Wunschalter: 90
 Aktuelles Jahr: 2025
-Sie sind aktuell 47 Jahre alt.
-Jahre bis zum Wunschalter: (90): 43
-Renteneintritt: 2045
-Jahre bis zum Renteneintritt: 20
+Sie sind aktuell 56 Jahre alt.
+Jahre bis zum Wunschalter: (90): 34
+Renteneintritt: 2036
+Jahre bis zum Renteneintritt: 11
 Jahre mit Rentenbezug: 23
 -----------------------------------------------------------------------------------
-Geben Sie Ihre aktuellen monatlichen Ausgaben (ohne Investitionen) ein: 1800
+Geben Sie Ihre aktuellen monatlichen Ausgaben (ohne Investitionen) ein: 2800,01
 Ausgaben und Inflation
-.
-Persönliche Inflation: 3.00%
+Monatliche Ausgaben: 2800.01 Euro
+Jährliche Ausgaben: 33600.12 Euro
+Geben Sie Ihre persönliche Inflation in Prozent ein: 3,25
+Persönliche Inflation: 3.25%
 Die eingegebene Inflation wird auf die Hochrechnung der Ausgaben angewendet.
 -----------------------------------------------------------------------------------
-Geben Sie Ihre monatliche Rente (aktuell zu erwartende Rente laut Bescheid RV) ein: 1500
+Geben Sie Ihre monatliche Rente (aktuell zu erwartende Rente laut Bescheid RV) ein: 2400,01
 Einkommen
-Monatliche Rente laut Bescheid RV: 1.500,00 Euro
+Monatliche Rente laut Bescheid RV: 2.400,01 Euro
 Die monatliche Rente wird um die Kranken- und Pflegeversicherung (aktuell 14,6%) reduziert.
-Ausgezahlte Rente: 1.281,00 Euro. (dieser Wert wird für die Berechnung der Rentenlücke verwendet)
+Ausgezahlte Rente: 2.049,61 Euro. (dieser Wert wird für die Berechnung der Rentenlücke verwendet)
 ------------------------------------
-Geben Sie die jährliche prozentuale Erhöhung der Rente bis zum Renteneintritt ein: 2
-Geben Sie die jährliche prozentuale Erhöhung der Rente während des Rentenbezugs ein: 2
+Geben Sie die jährliche prozentuale Erhöhung der Rente bis zum Renteneintritt ein: 1,01
+Geben Sie die jährliche prozentuale Erhöhung der Rente während des Rentenbezugs ein: 1,02
 Rentenanpassungen
-Jährliche Rentenerhöhung bis zum Renteneintritt: 2.00%
-Jährliche Rentenerhöhung während des Rentenbezugs: 2.00%
+Jährliche Rentenerhöhung bis zum Renteneintritt: 1.01%
+Jährliche Rentenerhöhung während des Rentenbezugs: 1.02%
 -----------------------------------------------------------------------------------
 Zusätzliche Einkünfte
 Sie können jetzt weitere Einkünfte, wie private Renten-, Lebensversicherungen oder andere Einkünfte, eingeben.
-Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): Direktversicherung
-Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen Direktversicherung erhalten: 2045
-Geben Sie die Höhe des monatlichen Einkommens Direktversicherung ein: 200
-Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für Direktversicherung ein: 0
+Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): DV
+Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen DV erhalten: 2036
+Geben Sie die Höhe des monatlichen Einkommens DV ein: 200,02
+Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für DV ein: 0,02
 -----------------------------------------------------------------------------------
-Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): Dividenden-und-Zinsen
-Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen Dividenden-und-Zinsen erhalten: 2045
-Geben Sie die Höhe des monatlichen Einkommens Dividenden-und-Zinsen ein: 500
-Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für Dividenden-und-Zinsen ein: 3
+Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): Kapitalerträge
+Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen Kapitalerträge erhalten: 2036
+Geben Sie die Höhe des monatlichen Einkommens Kapitalerträge ein: 2000,01
+Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für Kapitalerträge ein: 3,2
 -----------------------------------------------------------------------------------
 Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): stop
 -----------------------------------------------------------------------------------
 Übersicht der monatlichen Einkünfte und Ausgaben zum Renteneintritt:
-monatliche ausgezahlte Rente zum Renteneintritt (2045): 1.903,50 Euro
-monatliche Ausgaben zum Renteneintritt (2045): 3.251,00 Euro
+monatliche ausgezahlte Rente zum Renteneintritt (2036): 2.289,18 Euro
+monatliche Ausgaben zum Renteneintritt (2036): 3.980,62 Euro
 -----------------------------------------------------------------------------------
 Berechnung der Rentenlücke
 Während der Rentenbezugszeit von 23 Jahren haben Sie folgende Einkünfte und Ausgaben:
-Summe der Renteneinkünfte: 672.053,69 Euro
-Zusätzliche Einkünfte durch Direktversicherung: 55.200,00 Euro
-Zusätzliche Einkünfte durch Dividenden-und-Zinsen: 200.558,82 Euro
-Summe der Ausgaben : 1.304.033,55 Euro
+Summe der Renteneinkünfte: 715.253,53 Euro
+Zusätzliche Einkünfte durch DV: 55.338,21 Euro
+Zusätzliche Einkünfte durch Kapitalerträge: 823.258,17 Euro
+Summe der Ausgaben : 1.649.186,21 Euro
 -----------------------------------------------------------------------------------
 Ergebnis
-Die Rentenlücke beträgt: 376.221,03 Euro.
+Die Rentenlücke beträgt: 55.336,30 Euro.
 -----------------------------------------------------------------------------------
-Eine PDF Datei mit der Berechnung wurden im aktuellen Verzeichnis erstellt: Rentenluecken-Berechnung_06-07-2025_17-32-16.pdf
+Beispielrechnung mit 3% Rendite um die Rentenlücke zu schließen
+Bei 3% müsste man 11 Jahre lang monatlich 354,36 Euro investieren, um eine Rentenlücke von 55.336,30 Euro zu schließen.
+
+Beispielrechnung mit 7% Rendite um die Rentenlücke zu schließen
+Bei 7% müsste man 11 Jahre lang monatlich 279,49 Euro investieren, um eine Rentenlücke von 55.336,30 Euro zu schließen.
+
+Beispielrechnung mit 9% Rendite um die Rentenlücke zu schließen
+Bei 9% müsste man 11 Jahre lang monatlich 246,84 Euro investieren, um eine Rentenlücke von 55.336,30 Euro zu schließen.
+
+-----------------------------------------------------------------------------------
+Eine PDF Datei mit der Berechnung wurden im aktuellen Verzeichnis erstellt: Rentenluecken-Berechnung_26-07-2025_22-18-11.pdf
 ``
